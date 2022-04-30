@@ -18,15 +18,16 @@ class Hoover:
     def __move(self):
         if self.__location == Location.LEFT.value:
             self.__location = Location.RIGHT.value
-            return "Movendo para o lado direito."
+            return "Right"
         self.__location = Location.LEFT.value
-        return "Movendo para o lado esquerdo."
+        return "Left"
     
     def aspirate(self, scenery):
         if scenery[self.__location] == State.DIRTY.value:
             self.__score += 5
+            self.__hit_counter = 0
             scenery[self.__location] = State.CLEAN.value
-            return "Limpando!"
+            return "Suck"
         elif scenery[self.__location] == State.CLEAN.value:
             self.__score -= 1
             self.__hit_counter += 1 
