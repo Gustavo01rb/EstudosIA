@@ -12,7 +12,7 @@ class Hoover:
     def score(self):
         return self.__score
     def finish_operation(self):
-        return self.__hit_counter >= 4
+        return self.__hit_counter >= 2
 
     def __move(self):
         if self.__location == Location.LEFT.value:
