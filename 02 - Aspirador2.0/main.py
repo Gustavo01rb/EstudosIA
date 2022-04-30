@@ -16,7 +16,7 @@ def main():
                 scenery = [left, right] 
                 records = []
                 while(not hoover.finish_operation()):
-                    records.append(hoover.aspirate(scenery))
+                    records.append(hoover.reflex_vacuum_agent(scenery))
                 report.add_record([left, right], records)
                 report.add_score(hoover.score)
     report.print_records()

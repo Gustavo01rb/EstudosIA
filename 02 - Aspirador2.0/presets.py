@@ -6,4 +6,3 @@ class Location(Enum):
 class State(Enum):
     CLEAN = 0
     DIRTY = 1
-    NOT_VISITED = 2
