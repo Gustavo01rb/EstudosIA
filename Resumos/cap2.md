@@ -103,3 +103,8 @@ O **programa do agente** implementa a função do agente. Existe uma variedade d
 <p align="center">
     <img src = "https://user-images.githubusercontent.com/62517334/167700988-c79e0a64-518b-49f3-bc50-da90d1984e8b.png">
 </p>
+Os agentes reativos simples respondem diretamente a percepções, enquanto os agentes
+reativos baseados em modelos mantêm o estado interno para controlar aspectos do mundo que
+não estão evidentes na percepção atual. Os agentes baseados em objetivos agem para alcançar
+seus objetivos, e os agentes baseados em utilidade tentam maximizar sua própria “felicidade”
+esperada.

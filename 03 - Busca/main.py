@@ -16,7 +16,7 @@ class Presets:
                 (0, 0), (1, 0), (0, 0),
                 (0, 0), (0, 0), (0, 0))
 
-    def probability(self):
+    def __probability(self):
         probability = random.sample(range(4), k=1)
         if probability[0] == 1:
             return 1
@@ -25,9 +25,9 @@ class Presets:
     def generate_random_scenario(self):
         aux = list()
         for i in range(9):
-            aux.append( (0, self.probability()) )
+            aux.append( (0, self.__probability()) )
         
-        initial_position = random.sample(range(4), k=1)[0]
+        initial_position = random.sample(range(9), k=1)[0]
         aux[initial_position] = (1, 1)
 
         return tuple(aux) 
@@ -109,14 +109,14 @@ def questao3():
 
 def questao4():
     print("\n\nQuestão 4: ")
-    print_info("Agente aleatório", environment)
+    print_info("Agente reativo", environment)
     vaccum = RandonVacuumCleaner()
-    teste = environment
-    while not vaccum.goal_test(teste):
-        teste = vaccum.movement(teste)
+    ambiente = environment
+    while not vaccum.goal_test(ambiente):
+        ambiente = vaccum.movement(ambiente)
     print("\nSolução: ", vaccum.history)
     print("Custo: " + str(vaccum.coast))
-    print_state(teste, "Estado final:")
+    print_state(ambiente, "Estado final:")
 
 questao2()
 questao3()
