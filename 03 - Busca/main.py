@@ -8,6 +8,7 @@ from search import iterative_deepening_search as busca_interativa
 import random
 
 
+
 class Presets:
     @staticmethod
     def get_proposed_suggestion():
@@ -17,7 +18,7 @@ class Presets:
 
     def probability(self):
         probability = random.sample(range(4), k=1)
-        if probability == 1:
+        if probability[0] == 1:
             return 1
         return 0
     
@@ -26,10 +27,14 @@ class Presets:
         for i in range(9):
             aux.append( (0, self.probability()) )
         
-        initial_position = random.sample(range(4), k=1)
-        aux[initial_position][0] = 1
+        initial_position = random.sample(range(4), k=1)[0]
+        aux[initial_position] = (1, 1)
 
         return tuple(aux) 
+
+
+presset = Presets()
+environment = presset.generate_random_scenario()
 
 
 def print_state(state, title=None):
@@ -43,56 +48,76 @@ def print_state(state, title=None):
 
 
 def print_info(title, initial_state):
-    print("-----------------------------------------------------------------")
     print("\n\n-----------------------------------------------------------------")
     print(" " + title)
     print("\nEstado inicial:")
     print_state(initial_state)
 
 
-def questao3():
-
-    print_info("Busca em profundidade", Presets.get_proposed_suggestion())
-    problem = VacuumCleaner(Presets.get_proposed_suggestion())
-    print("\nSolução: ", end='')
-    print(busca_em_profundidade(problem).solution())
-    print("Custo: " + str(problem.custo))
-    print_state(busca_em_profundidade(problem).state, "Estado final:")
-
-    print_info("Busca em largura", Presets.get_proposed_suggestion())
-    problem = VacuumCleaner(Presets.get_proposed_suggestion())
-    print("\nSolução: ", end='')
-    print(busca_em_largura(problem).solution())
-    print("Custo: " + str(problem.custo))
-    print_state(busca_em_largura(problem).state, "Estado final:")
-
+def questao2():
+    print("\n\nQuestão 2: ")
     print_info("Busca de custo uniforme", Presets.get_proposed_suggestion())
     problem = VacuumCleaner(Presets.get_proposed_suggestion())
     print("\nSolução: ", end='')
     print(custo_uniforme(problem).solution())
     print("Custo: " + str(problem.custo))
     print_state(custo_uniforme(problem).state, "Estado final:")
+    print("-----------------------------------------------------------------\n\n")
+
+
+
+def questao3():
+    print("\n\nQuestão 3: ")
+    print_info("Busca em profundidade", environment)
+    problem = VacuumCleaner(environment)
+    print("\nSolução: ", end='')
+    print(busca_em_profundidade(problem).solution())
+    print("Custo: " + str(problem.custo))
+    print_state(busca_em_profundidade(problem).state, "Estado final:")
+
+    print_info("Busca em largura", environment)
+    problem = VacuumCleaner(environment)
+    print("\nSolução: ", end='')
+    print(busca_em_largura(problem).solution())
+    print("Custo: " + str(problem.custo))
+    print_state(busca_em_largura(problem).state, "Estado final:")
+
+    print_info("Busca de custo uniforme", environment)
+    problem = VacuumCleaner(environment)
+    print("\nSolução: ", end='')
+    print(custo_uniforme(problem).solution())
+    print("Custo: " + str(problem.custo))
+    print_state(custo_uniforme(problem).state, "Estado final:")
 
     print_info("Busca em profundidade limitada",
-               Presets.get_proposed_suggestion())
-    problem = VacuumCleaner(Presets.get_proposed_suggestion())
+               environment)
+    problem = VacuumCleaner(environment)
     print("\nSolução: ", end='')
     print(profundidade_limitada(problem).solution())
     print("Custo: " + str(problem.custo))
     print_state(profundidade_limitada(problem).state, "Estado final:")
 
-    print_info("Busca interativa", Presets.get_proposed_suggestion())
-    problem = VacuumCleaner(Presets.get_proposed_suggestion())
+    print_info("Busca interativa", environment)
+    problem = VacuumCleaner(environment)
     print("\nSolução: ", end='')
     print(busca_interativa(problem).solution())
     print("Custo: " + str(problem.custo))
     print_state(busca_interativa(problem).state, "Estado final:")
 
+    print("-----------------------------------------------------------------\n\n")
+
 
 def questao4():
-    pass
+    print("\n\nQuestão 4: ")
+    print_info("Agente aleatório", environment)
+    vaccum = RandonVacuumCleaner()
+    teste = environment
+    while not vaccum.goal_test(teste):
+        teste = vaccum.movement(teste)
+    print("\nSolução: ", vaccum.history)
+    print("Custo: " + str(vaccum.coast))
+    print_state(teste, "Estado final:")
 
-
+questao2()
 questao3()
-print("\n\n\nAgente aleatório\n\n\n")
 questao4()

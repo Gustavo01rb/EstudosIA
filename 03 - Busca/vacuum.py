@@ -1,4 +1,4 @@
-from turtle import position
+
 from search import Problem
 import random
 
@@ -72,30 +72,15 @@ class VacuumCleaner(Problem):
         return c + 2
 
 
+
+
+
 class RandonVacuumCleaner:
-    def __init__(self, max_range, initial_position) -> None:
-        self.position = initial_position
-        self.max_range = max_range
-        self.goa = self.__goal_generator()
-
-    def random_position(self):
-        random.seed(8)
-        return random.sample(range(self.max_range), k=1)
-
-    def movement(self, state):
-        next = self.position
-        while next == position:
-            next = self.random_position()
-
-        state[position][0] = 0
-        state[next][0] = 1
-
-    def check_dirt(self, state):
-        if state[self.position][1] == 1:
-            state[self.position][1] = 0
-            return
-        self.movement(state)
-
+    def __init__(self,) -> None:
+        self.goal = self.__goal_generator()
+        self.history = []
+        self.coast = 0
+    
     def __goal_generator(self):
         list_goal = list()
         list_aux = list()
@@ -109,6 +94,52 @@ class RandonVacuumCleaner:
             list_goal.append(tuple(list_aux))
             list_aux = []
         return tuple(list_goal)
+
+    def __find_index_vacuum(self, state):
+        for index, iterator in enumerate(state):
+            if iterator[0] == 1:
+                return index
+
+    def actions(self, state):
+        possible_actions = ['UP', 'DOWN', 'LEFT', 'RIGHT', 'SUCK']
+        index_vacuum = self.__find_index_vacuum(state)
+
+        if state[index_vacuum][1] == 1:
+            return ['SUCK']
+
+        if index_vacuum % 3 == 0:
+            possible_actions.remove('LEFT')
+        if index_vacuum < 3:
+            possible_actions.remove('UP')
+        if index_vacuum % 3 == 2:
+            possible_actions.remove('RIGHT')
+        if index_vacuum > 5:
+            possible_actions.remove('DOWN')
+
+        return possible_actions
+
+
+    def movement(self, state):
+        possible_actions = self.actions(state)
+        action = possible_actions[random.sample(range(len(possible_actions)), k=1)[0]]
+        self.history.append(action)
+
+
+        index_vacuum = self.__find_index_vacuum(state)
+        state = list(state)
+
+        if action == "SUCK":
+            self.coast += 1
+            state[index_vacuum] = (1, 0)
+            return tuple(state)
+
+        delta = {'UP': -3, 'DOWN': 3, 'LEFT': -1, 'RIGHT': 1}
+        neighbor = index_vacuum + delta[action]
+        state[index_vacuum] = (0, 0)
+        state[neighbor] = (1, state[neighbor][1])
+        self.coast += 2
+        return tuple(state)
+
 
     def goal_test(self, state):
         return state in self.goal
