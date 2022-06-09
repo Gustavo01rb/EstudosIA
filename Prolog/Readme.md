@@ -34,7 +34,7 @@ Dado a base de dados acima é possível inferir relações entre os integrantes.
     father(X,Y) :- parent(X,Y),men(X).
 ~~~
 
->X é mãe de Y se X é progenitor de Y e Y é mulher. <br/> X é pai de Y se X é progenitor de Y e Y é homem. 
+>X é mãe de Y se X é progenitor de Y e X é mulher. <br/> X é pai de Y se X é progenitor de Y e X é homem. 
 
 ### Irmãos
 ~~~Polog
@@ -61,7 +61,7 @@ Dado a base de dados acima é possível inferir relações entre os integrantes.
     aunt(X,Y)   :- uncles(X,Y), women(X).
 ~~~
 
->X é tio de Y se existe um Z que é irmão do pai de Y.
+>X é tio de Y se existe um Z que é irmão dos pais de Y.
 
 ### Primos
 ~~~Polog
