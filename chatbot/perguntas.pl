@@ -60,30 +60,60 @@ informacao_planos:-
     planos_descricao('600 Mb', Segundo),
     planos_descricao('1 Gb', Terceiro),
 
-    nl,format('\t 400 Mb ->'), format(Primeiro),
-    nl,format('\t 600 Mb ->'), format(Segundo),
-    nl,format('\t 1   Gb ->'), format(Terceiro).
+    nl,format('\t 400 Mb ->'), 
+    format(Primeiro), 
+    format(' Mensalidade:'), 
+    mensalidade('400 Mb', Resposta_p), !, 
+    format(Resposta_p), 
+    nl,format('\t 600 Mb ->'), 
+    format(Segundo), 
+    format(' Mensalidade:'), 
+    mensalidade('600 Mb', Resposta_s),!, 
+    format(Resposta_s),
+    nl,format('\t 1   Gb ->'), 
+    format(Terceiro), 
+    format(' Mensalidade:'), 
+    mensalidade('1 Gb', Resposta), 
+    format(Resposta).
 
+%Contratar um novo plano
+contratar:-
+    format('Informe seu nome'),nl,
+    read(Nome),nl,
+    format('Informe o plano que deseja contratar'),nl,
+    read(Plano),
+    registrar_novo_plano(Nome, Plano).
 
-teste:-
+registrar_novo_plano(Nome, Plano):-
     open('base_de_conhecimento.pl',append,Stream),
-    format('Informe o nome: '),nl,
-    read(Nome),
     nl(Stream),
     write(Stream, "cliente('"),
     write(Stream, Nome),
-    write(Stream, ")"),
-    write(Stream, '.'),
+    write(Stream, "')."),
+    assert(cliente(Nome)),
+    nl(Stream),
+    write(Stream, "planos_adquiridos('"),
+    write(Stream, Nome),
+    write(Stream, "','"),
+    write(Stream, Plano),
+    write(Stream, "')."),
+    assert(planos_adquiridos(Nome, Plano)),
     close(Stream).
 
-
-
+teste:-
+    format('Informe sua dúvida: '), nl,
+    read(Duvida),
+    duvidas(Duvida, Resposta),
+    nl,format('\t --->'),
+    format(Resposta).
 
 pergunta(Resposta):-
     (Resposta == 1) -> consultar_plano;
     (Resposta == 2) -> registrar_reclamacao;
     (Resposta == 3) -> visita_tecnica;
     (Resposta == 4) -> informacao_planos;
-    (Resposta == 5) -> teste.
+    (Resposta == 5) -> contratar;
+    (Resposta == 6) -> teste.
+
 
 
