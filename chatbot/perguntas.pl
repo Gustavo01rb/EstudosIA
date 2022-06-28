@@ -98,14 +98,39 @@ registrar_novo_plano(Nome, Plano):-
     write(Stream, Plano),
     write(Stream, "')."),
     assert(planos_adquiridos(Nome, Plano)),
-    close(Stream).
+    close(Stream),
+    format('Seu plano foi cadastrado com sucesso.').
 
-teste:-
+%Perguntas e respostas
+duvida:-
     format('Informe sua dúvida: '), nl,
     read(Duvida),
-    duvidas(Duvida, Resposta),
-    nl,format('\t --->'),
+    (Duvida = 'Internet lenta') -> duvida_internet_lenta(Duvida, 0);
+    (Duvida = 'Sem conexão') -> duvida_sem_conexao(Duvida, 0);
+    duvidas(Duvida, Resposta, 0),
+    nl,format('---> '),
     format(Resposta).
+
+duvida_sem_conexao(Duvida, Etapa):-
+    (Etapa == 4) -> format('');
+    duvidas(Duvida, Resposta, Etapa),
+    nl,format(Resposta),
+    nl,format('Seu problema foi resolvido ?'), nl,
+    read(Solucionado),
+    (Solucionado == 'sim') -> format('Obrigado!');
+    NovaEtapa is Etapa + 1,
+    duvida_sem_conexao(Duvida, NovaEtapa).
+
+duvida_internet_lenta(Duvida, Etapa):-
+    (Etapa == 6) -> format('');
+    duvidas(Duvida, Resposta, Etapa),
+    nl,format(Resposta),
+    nl,format('Podemos seguir para a próxima etapa? '), nl,
+    read(Solucionado),
+    (Solucionado == 'não') -> format('Obrigado!');
+    NovaEtapa is Etapa + 1,
+    duvida_internet_lenta(Duvida, Etapa).
+
 
 pergunta(Resposta):-
     (Resposta == 1) -> consultar_plano;
@@ -113,7 +138,4 @@ pergunta(Resposta):-
     (Resposta == 3) -> visita_tecnica;
     (Resposta == 4) -> informacao_planos;
     (Resposta == 5) -> contratar;
-    (Resposta == 6) -> teste.
-
-
-
+    (Resposta == 6) -> duvida.

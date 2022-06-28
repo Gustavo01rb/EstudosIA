@@ -1,0 +1,4 @@
+Cliente: Gustavo
+Cidade: Pitangui
+Data: 20/07/2022
+
