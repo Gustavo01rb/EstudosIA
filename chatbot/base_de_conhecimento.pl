@@ -14,7 +14,6 @@ planos_descricao('1 Gb', ' Recomendado para pequenas empresas e para o trabalho 
 planos_descricao('400 Mb', ' Recomendado para famílias, é nosso plano mais econômico.').
 planos_descricao('600 Mb', ' Melhor custo benefício e ultra velocidade.').
 
-
 mensalidade('1 Gb',  'R$ 200,00').
 mensalidade('400 Mb','R$ 100,00').
 mensalidade('600 Mb','R$ 150,00').
